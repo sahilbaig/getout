@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:getout/pages/home.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:getout/screens/home/home.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -12,12 +13,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const Home(),
-    );
+        title: 'Barinator3000',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: Scaffold(
+            body: Center(
+          child: Home(),
+        )));
   }
 }
