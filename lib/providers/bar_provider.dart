@@ -1,16 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:getout/models/bar_model.dart';
+import "../repository/bar_repository.dart";
 
-class BarClass extends Notifier<String> {
+class BarClass extends AsyncNotifier<Bar> {
   @override
-  String build() {
-    return "Intials Data";
+  Future<Bar> build() async {
+    return BarService().fetchBars();
   }
 
-  void changeName() {
-    state = "changed name";
+  Future<void> fetchAndChange() async {
+    state = const AsyncLoading();
+    final newBar = await BarService().barReset();
+    state = AsyncData(newBar);
   }
 }
 
-final barNotifierProvider = NotifierProvider<BarClass, String>(() {
+final barNotifierProvider = AsyncNotifierProvider<BarClass, Bar>(() {
   return BarClass();
 });

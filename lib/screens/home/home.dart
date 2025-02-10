@@ -7,17 +7,22 @@ class Home extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final barWatcher = ref.watch(barNotifierProvider);
-    return Center(
-        child: Column(
+    final bar = ref.watch(barNotifierProvider);
+    final barNotifier = ref.read(barNotifierProvider.notifier);
+
+    return Row(
       children: [
-        Text(barWatcher),
+        bar.when(
+          data: (bar) => Text(bar.name),
+          loading: () => CircularProgressIndicator(),
+          error: (err, stack) => Text("Error: $err"),
+        ),
         ElevatedButton(
             onPressed: () {
-              ref.read(barNotifierProvider.notifier).changeName();
+              barNotifier.fetchAndChange();
             },
-            child: Text("Change name"))
+            child: Text("click me"))
       ],
-    ));
+    );
   }
 }
